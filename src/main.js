@@ -10,15 +10,20 @@ import $ons from 'vue-onsenui/esm'
 import * as VOns from './vue-onsen-components'
 import store from './store'
 import App from './App'
+import VueJsonp from 'vue-jsonp'
+import router from './router'
 
 Vue.config.productionTip = false
 
 Vue.use($ons)
 Object.values(VOns).forEach(comp => Vue.component(comp.name, comp))
+Vue.use(VueJsonp)
+Vue.use(router)
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  router,
   store,
   template: '<App/>',
   components: { App }

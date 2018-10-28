@@ -8,7 +8,13 @@
       </v-ons-splitter-side>
 
       <v-ons-splitter-content>
-        <main-page></main-page>
+        <v-ons-navigator
+          swipeable
+          :page-stack="pageStack"
+          @push-page="pageStack.push($event)"
+          :pop-page="popPage"
+        >
+        </v-ons-navigator>
       </v-ons-splitter-content>
     </v-ons-splitter>
   </v-ons-page>
@@ -18,9 +24,15 @@
 import HomePage from './pages/HomePage'
 import MenuPage from './pages/MenuPage'
 import MainPage from './pages/MainPage'
+import SearchPage from './pages/SearchPage'
 
 export default {
   name: 'app',
+  data () {
+    return {
+      pageStack: [MainPage]
+    }
+  },
   computed: {
     menuIsOpen: {
       get () {
@@ -31,10 +43,17 @@ export default {
       }
     }
   },
+  methods: {
+    popPage () {
+      this.$router.back()
+      this.pageStack.pop()
+    }
+  },
   components: {
     HomePage,
     MenuPage,
-    MainPage
+    MainPage,
+    SearchPage
   }
 }
 </script>
