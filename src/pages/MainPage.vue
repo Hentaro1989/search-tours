@@ -26,7 +26,6 @@
 <script>
 import StSelect from '../components/StSelect'
 import { API_KEY } from '../constants'
-import SearchPage from './SearchPage'
 
 export default {
   name: 'main-page',
@@ -84,9 +83,23 @@ export default {
         this.selectedCity = ''
       }
     },
+    fetchTours () {
+      const query = {
+        area: this.selectedArea,
+        country: this.selectedCountry,
+        city: this.selectedCity,
+        // ymd: this.date,
+        // keyword: this.keyword,
+        callback: 'onTour',
+        count: 10,
+        start: 1
+      }
+      this.fetch('https://webservice.recruit.co.jp/ab-road/tour/v1/', query)
+        .then(({results}) => { console.log(results) })
+    },
     search () {
+      this.fetchTours()
       this.$router.push({name: 'Search'})
-      this.$emit('push-page', SearchPage)
     }
   },
   created () {

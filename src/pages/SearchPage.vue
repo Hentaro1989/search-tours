@@ -6,7 +6,9 @@
       </div>
       <div class="center">Search Page</div>
     </v-ons-toolbar>
-    <p style="text-align: center">This is the second page</p>
+    <v-ons-card>
+      <p style="text-align: center">This is the second page</p>
+    </v-ons-card>
   </v-ons-page>
 </template>
 
@@ -15,6 +17,11 @@ export default {
   name: 'search-page',
   data () {
     return {}
+  },
+  methods: {
+  },
+  created () {
+    console.log('Search Page has created.')
   }
 }
 </script>

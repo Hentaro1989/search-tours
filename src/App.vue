@@ -11,7 +11,6 @@
         <v-ons-navigator
           swipeable
           :page-stack="pageStack"
-          @push-page="pageStack.push($event)"
           :pop-page="popPage"
         >
         </v-ons-navigator>
@@ -46,8 +45,15 @@ export default {
   methods: {
     popPage () {
       this.$router.back()
-      this.pageStack.pop()
     }
+  },
+  watch: {
+    $route (to, from) {
+      this.pageStack = to.matched.map(m => m.components.default)
+    }
+  },
+  created () {
+    this.pageStack = this.$route.matched.map(m => m.components.default)
   },
   components: {
     HomePage,
