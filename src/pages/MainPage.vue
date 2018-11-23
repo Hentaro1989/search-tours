@@ -33,11 +33,11 @@ export default {
     return {
       msg: 'Main Page',
       areas: [],
-      selectedArea: '',
+      area: '',
       countries: [],
-      selectedCountry: '',
+      country: '',
       cities: [],
-      selectedCity: ''
+      city: ''
     }
   },
   watch: {
@@ -55,51 +55,36 @@ export default {
     },
     onAreaSelected (value) {
       if (value !== 'menu') {
-        this.selectedArea = value
+        this.area = value
         const query = {area: value, callback: 'onCountry', count: 100}
         this.fetch('https://webservice.recruit.co.jp/ab-road/country/v1/', query)
           .then(({results}) => { this.countries = results.country })
       } else {
-        this.selectedArea = ''
+        this.area = ''
         this.countries = []
         this.cities = []
       }
     },
     onCountrySelected (value) {
       if (value !== 'menu') {
-        this.selectedCountry = value
+        this.country = value
         const query = {country: value, callback: 'onCity', count: 100}
         this.fetch('https://webservice.recruit.co.jp/ab-road/city/v1/', query)
           .then(({results}) => { this.cities = results.city })
       } else {
-        this.selectedCountry = ''
+        this.country = ''
         this.cities = []
       }
     },
     onCitySelected (value) {
       if (value !== 'menu') {
-        this.selectedCity = value
+        this.city = value
       } else {
-        this.selectedCity = ''
+        this.city = ''
       }
-    },
-    fetchTours () {
-      const query = {
-        area: this.selectedArea,
-        country: this.selectedCountry,
-        city: this.selectedCity,
-        // ymd: this.date,
-        // keyword: this.keyword,
-        callback: 'onTour',
-        count: 10,
-        start: 1
-      }
-      this.fetch('https://webservice.recruit.co.jp/ab-road/tour/v1/', query)
-        .then(({results}) => { console.log(results) })
     },
     search () {
-      this.fetchTours()
-      this.$router.push({name: 'Search'})
+      this.$router.push({name: 'Search', query: {area: this.area, country: this.country, city: this.city}})
     }
   },
   created () {
