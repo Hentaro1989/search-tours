@@ -7,7 +7,7 @@
       <div class="center">Search Page</div>
     </v-ons-toolbar>
     <div>
-      <v-ons-card v-for="tour in tours" :key="tour.id">
+      <v-ons-card v-for="tour in tourResults.tour" :key="tour.id">
         <p class="title" style="font-size: 18px">{{tour.title}}</p>
         <table class="content">
           <tr>
@@ -29,6 +29,25 @@
         </table>
       </v-ons-card>
     </div>
+    <v-ons-bottom-toolbar style="display: table; width: 100%; text-align: right; padding: 0 10px;">
+      <div style="display: table-cell; vertical-align: middle; text-align: left;">
+        <a href="http://webservice.recruit.co.jp/" target="_blank">
+          <img src="http://webservice.recruit.co.jp/banner/abroad-m.gif"
+            alt="エイビーロードWebサービス"
+            width="88"
+            height="35"
+            border="0"
+            title="エイビーロードWebサービス"
+            style="vertical-align: middle;"
+          >
+        </a>
+      </div>
+      <div style="display: table-cell; vertical-align: middle;">
+        <v-ons-button @click="backToPreviousPage()" modifier="quiet">&lt;</v-ons-button>
+        {{pageData.currentPage}} / {{pageData.allPage}}
+        <v-ons-button @click="goToNextPage()" modifier="quiet">&gt;</v-ons-button>
+      </div>
+    </v-ons-bottom-toolbar>
   </v-ons-page>
 </template>
 
@@ -39,7 +58,8 @@ export default {
   name: 'search-page',
   data () {
     return {
-      tours: []
+      tourResults: {},
+      pageData: {}
     }
   },
   methods: {
@@ -48,22 +68,48 @@ export default {
       query.format = 'jsonp'
       return this.$jsonp(url, query)
     },
-    fetchTours () {
+    fetchTours (index) {
+      this.tourResults = {}
       const query = {
         ...this.$route.query,
         // ymd: this.date,
         // keyword: this.keyword,
         callback: 'onTour',
         count: 10,
-        start: 1
+        start: index || 1
       }
       this.fetch('https://webservice.recruit.co.jp/ab-road/tour/v1/', query)
-        .then(({results}) => { this.tours = results.tour })
+        .then(({results}) => {
+          this.tourResults = console.log(results) || results
+          this.getCurrentPageInformation()
+        })
+    },
+    getCurrentPageInformation () {
+      const available = parseInt(this.tourResults.results_available, 10)
+      this.start = parseInt(this.tourResults.results_start, 10)
+      this.toursPerPage = 10
+
+      const allPage = Math.ceil(available / this.toursPerPage)
+      const currentPage = this.start === 1 ? 1 : (this.start - 1) / this.toursPerPage + 1
+      this.pageData = {currentPage, allPage}
+    },
+    goToNextPage () {
+      this.start += this.toursPerPage
+      this.$router.replace({name: 'Search', query: {...this.$route.query, start: this.start, toursPerPage: this.toursPerPage}})
+      this.fetchTours(this.start)
+    },
+    backToPreviousPage () {
+      const previousStart = this.start - this.toursPerPage
+      if (previousStart < 1) {
+        return
+      }
+      this.start = previousStart
+      this.$router.replace({name: 'Search', query: {...this.$route.query, start: this.start, toursPerPage: this.toursPerPage}})
+      this.fetchTours(this.start)
     }
   },
   created () {
-    console.log('Search Page has been created.')
-    this.fetchTours()
+    this.fetchTours(this.start)
   }
 }
 </script>

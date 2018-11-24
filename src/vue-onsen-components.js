@@ -5,7 +5,7 @@
 // export { default as VOnsAlertDialog } from 'vue-onsenui/esm/components/VOnsAlertDialog'
 // export { default as VOnsAlertDialogButton } from 'vue-onsenui/esm/components/VOnsAlertDialogButton'
 export { default as VOnsBackButton } from 'vue-onsenui/esm/components/VOnsBackButton'
-// export { default as VOnsBottomToolbar } from 'vue-onsenui/esm/components/VOnsBottomToolbar'
+export { default as VOnsBottomToolbar } from 'vue-onsenui/esm/components/VOnsBottomToolbar'
 export { default as VOnsButton } from 'vue-onsenui/esm/components/VOnsButton'
 export { default as VOnsCard } from 'vue-onsenui/esm/components/VOnsCard'
 // export { default as VOnsCarousel } from 'vue-onsenui/esm/components/VOnsCarousel'
