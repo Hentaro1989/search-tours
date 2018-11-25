@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import HomePage from './pages/HomePage'
 import MenuPage from './pages/MenuPage'
 import MainPage from './pages/MainPage'
 import SearchPage from './pages/SearchPage'
@@ -56,7 +55,6 @@ export default {
     this.pageStack = this.$route.matched.map(m => m.components.default)
   },
   components: {
-    HomePage,
     MenuPage,
     MainPage,
     SearchPage

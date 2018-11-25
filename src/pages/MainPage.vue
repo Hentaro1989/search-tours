@@ -12,10 +12,10 @@
     <st-select select-title="[SELECT COUNTRY]"  event-name="on-country-selected"  :data="countries" @on-country-selected="onCountrySelected"></st-select>
     <st-select select-title="[SELECT CITY]"     event-name="on-city-selected"     :data="cities"    @on-city-selected="onCitySelected"></st-select>
     <v-ons-list style="text-align: center; padding: 25px 0;">
-      <v-ons-input placeholder="Departure Date" style="width: 300px"></v-ons-input>
+      <v-ons-input type="date" style="width: 300px" v-model="departureDate"></v-ons-input>
     </v-ons-list>
     <v-ons-list style="text-align: center; padding: 25px 0;">
-      <v-ons-input placeholder="Free Word" style="width: 300px"></v-ons-input>
+      <v-ons-input type="text" placeholder="Free Word" style="width: 300px"></v-ons-input>
     </v-ons-list>
     <v-ons-list style="text-align: center; padding: 25px 0;">
       <v-ons-button @click="search()" style="margin: 6px 0">Search</v-ons-button>
@@ -37,7 +37,8 @@ export default {
       countries: [],
       country: '',
       cities: [],
-      city: ''
+      city: '',
+      departureDate: ''
     }
   },
   watch: {
@@ -84,10 +85,33 @@ export default {
       }
     },
     search () {
-      this.$router.push({name: 'Search', query: {area: this.area, country: this.country, city: this.city}})
+      this.$router.push({
+        name: 'Search',
+        query: {
+          area: this.area,
+          country: this.country,
+          city: this.city,
+          ymd: this.departureDate.replace(/-/g, '')
+        }
+      })
+    },
+    formatDate (date) {
+      const d = new Date(date)
+      let month = '' + (d.getMonth() + 1)
+      let day = '' + d.getDate()
+      const year = d.getFullYear()
+
+      if (month.length < 2) {
+        month = '0' + month
+      }
+      if (day.length < 2) {
+        day = '0' + day
+      }
+      return [year, month, day].join('-')
     }
   },
   created () {
+    this.departureDate = this.formatDate(new Date())
     this.fetchArea()
   },
   components: {

@@ -42,10 +42,10 @@
           >
         </a>
       </div>
-      <div style="display: table-cell; vertical-align: middle;">
-        <v-ons-button @click="backToPreviousPage()" modifier="quiet">&lt;</v-ons-button>
+      <div style="display: table-cell; vertical-align: middle; font-size: 20px">
+        <v-ons-button @click="backToPreviousPage()" modifier="quiet" style="font-size: 25px">&lt;</v-ons-button>
         {{pageData.currentPage}} / {{pageData.allPage}}
-        <v-ons-button @click="goToNextPage()" modifier="quiet">&gt;</v-ons-button>
+        <v-ons-button @click="goToNextPage()" modifier="quiet" style="font-size: 25px">&gt;</v-ons-button>
       </div>
     </v-ons-bottom-toolbar>
   </v-ons-page>
@@ -72,7 +72,6 @@ export default {
       this.tourResults = {}
       const query = {
         ...this.$route.query,
-        // ymd: this.date,
         // keyword: this.keyword,
         callback: 'onTour',
         count: 10,
@@ -90,7 +89,7 @@ export default {
       this.toursPerPage = 10
 
       const allPage = Math.ceil(available / this.toursPerPage)
-      const currentPage = this.start === 1 ? 1 : (this.start - 1) / this.toursPerPage + 1
+      const currentPage = Math.floor(this.start === 1 ? 1 : (this.start - 1) / this.toursPerPage + 1)
       this.pageData = {currentPage, allPage}
     },
     goToNextPage () {
@@ -109,7 +108,7 @@ export default {
     }
   },
   created () {
-    this.fetchTours(this.start)
+    this.fetchTours(this.$route.query.start)
   }
 }
 </script>
