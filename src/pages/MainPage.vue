@@ -15,11 +15,11 @@
       <v-ons-input type="date" style="width: 300px" v-model="departureDate"></v-ons-input>
     </v-ons-list>
     <v-ons-list style="text-align: center; padding: 25px 0;">
-      <v-ons-input type="text" placeholder="Free Word" style="width: 300px"></v-ons-input>
+      <v-ons-input type="text" placeholder="Free Word" style="width: 300px" v-model="freeWord"></v-ons-input>
     </v-ons-list>
-    <v-ons-list style="text-align: center; padding: 25px 0;">
-      <v-ons-button @click="search()" style="margin: 6px 0">Search</v-ons-button>
-    </v-ons-list>
+    <v-ons-bottom-toolbar style="text-align: center;">
+      <v-ons-button @click="search()" modifier="large" style="margin: 6px 0">Search</v-ons-button>
+    </v-ons-bottom-toolbar>
   </v-ons-page>
 </template>
 
@@ -38,7 +38,8 @@ export default {
       country: '',
       cities: [],
       city: '',
-      departureDate: ''
+      departureDate: '',
+      freeWord: ''
     }
   },
   watch: {
@@ -91,7 +92,8 @@ export default {
           area: this.area,
           country: this.country,
           city: this.city,
-          ymd: this.departureDate.replace(/-/g, '')
+          ymd: this.departureDate.replace(/-/g, ''),
+          keyWord: this.freeWord
         }
       })
     },

@@ -43,9 +43,9 @@
         </a>
       </div>
       <div style="display: table-cell; vertical-align: middle; font-size: 20px">
-        <v-ons-button @click="backToPreviousPage()" modifier="quiet" style="font-size: 25px">&lt;</v-ons-button>
+        <v-ons-button @click="backToPreviousPage()" :disabled="isFetching" modifier="quiet" style="font-size: 25px">&lt;</v-ons-button>
         {{pageData.currentPage}} / {{pageData.allPage}}
-        <v-ons-button @click="goToNextPage()" modifier="quiet" style="font-size: 25px">&gt;</v-ons-button>
+        <v-ons-button @click="goToNextPage()" :disabled="isFetching" modifier="quiet" style="font-size: 25px">&gt;</v-ons-button>
       </div>
     </v-ons-bottom-toolbar>
   </v-ons-page>
@@ -69,10 +69,10 @@ export default {
       return this.$jsonp(url, query)
     },
     fetchTours (index) {
+      this.isFetching = true
       this.tourResults = {}
       const query = {
         ...this.$route.query,
-        // keyword: this.keyword,
         callback: 'onTour',
         count: 10,
         start: index || 1
@@ -81,6 +81,7 @@ export default {
         .then(({results}) => {
           this.tourResults = console.log(results) || results
           this.getCurrentPageInformation()
+          this.isFetching = false
         })
     },
     getCurrentPageInformation () {
