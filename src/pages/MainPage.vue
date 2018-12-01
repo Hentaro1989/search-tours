@@ -6,19 +6,32 @@
           <v-ons-icon icon="fa-bars"></v-ons-icon>
         </v-ons-toolbar-button>
       </div>
-      <div class="center">{{ msg }}</div>
+      <div class="center">{{ pageName }}</div>
     </v-ons-toolbar>
-    <st-select select-title="[SELECT AREA]"     event-name="on-area-selected"     :data="areas"     @on-area-selected="onAreaSelected"></st-select>
-    <st-select select-title="[SELECT COUNTRY]"  event-name="on-country-selected"  :data="countries" @on-country-selected="onCountrySelected"></st-select>
-    <st-select select-title="[SELECT CITY]"     event-name="on-city-selected"     :data="cities"    @on-city-selected="onCitySelected"></st-select>
-    <v-ons-list style="text-align: center; padding: 25px 0;">
-      <v-ons-input type="date" style="width: 300px" v-model="departureDate"></v-ons-input>
+    <v-ons-list modifier="inset" class="search-list">
+      <v-ons-list-header>エリア</v-ons-list-header>
+      <v-ons-list-item>
+        <st-select select-title="[エリアを選択]" event-name="on-area-selected" :data="areas" @on-area-selected="onAreaSelected"></st-select>
+      </v-ons-list-item>
+      <v-ons-list-header>国</v-ons-list-header>
+      <v-ons-list-item>
+        <st-select select-title="[国を選択]" event-name="on-country-selected" :data="countries" @on-country-selected="onCountrySelected"></st-select>
+      </v-ons-list-item>
+      <v-ons-list-header>都市</v-ons-list-header>
+      <v-ons-list-item>
+        <st-select select-title="[都市を選択]" event-name="on-city-selected" :data="cities" @on-city-selected="onCitySelected"></st-select>
+      </v-ons-list-item>
+      <v-ons-list-header>出発日</v-ons-list-header>
+      <v-ons-list-item>
+        <v-ons-input type="date" style="width: 300px" v-model="departureDate"></v-ons-input>
+      </v-ons-list-item>
+      <v-ons-list-header>フリーワード</v-ons-list-header>
+      <v-ons-list-item>
+        <v-ons-input type="text" placeholder="フリーワード" style="width: 300px" v-model="freeWord"></v-ons-input>
+      </v-ons-list-item>
     </v-ons-list>
-    <v-ons-list style="text-align: center; padding: 25px 0;">
-      <v-ons-input type="text" placeholder="Free Word" style="width: 300px" v-model="freeWord"></v-ons-input>
-    </v-ons-list>
-    <v-ons-bottom-toolbar style="text-align: center;">
-      <v-ons-button @click="search()" modifier="large" style="margin: 6px 0">Search</v-ons-button>
+    <v-ons-bottom-toolbar>
+      <v-ons-button @click="search()" modifier="large">検索</v-ons-button>
     </v-ons-bottom-toolbar>
   </v-ons-page>
 </template>
@@ -31,7 +44,7 @@ export default {
   name: 'main-page',
   data () {
     return {
-      msg: 'Main Page',
+      pageName: '海外旅行を検索',
       areas: [],
       area: '',
       countries: [],
@@ -92,7 +105,7 @@ export default {
           area: this.area,
           country: this.country,
           city: this.city,
-          ymd: this.departureDate.replace(/-/g, ''),
+          ymd: this.departureDate && this.departureDate.replace(/-/g, ''),
           keyWord: this.freeWord
         }
       })
@@ -113,7 +126,6 @@ export default {
     }
   },
   created () {
-    this.departureDate = this.formatDate(new Date())
     this.fetchArea()
   },
   components: {
@@ -123,5 +135,11 @@ export default {
 </script>
 
 <style scoped>
+.search-list {
+  margin-top: 8px;
+}
 
+ons-bottom-toolbar {
+  margin: 6px;
+}
 </style>

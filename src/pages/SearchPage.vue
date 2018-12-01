@@ -2,26 +2,30 @@
   <v-ons-page>
     <v-ons-toolbar>
       <div class="left">
-        <v-ons-back-button>Main Page</v-ons-back-button>
+        <v-ons-back-button>海外旅行を検索</v-ons-back-button>
       </div>
-      <div class="center">Search Page</div>
+      <div class="center">{{ pageName }}</div>
     </v-ons-toolbar>
     <div>
       <v-ons-card v-for="tour in tourResults.tour" :key="tour.id">
-        <p class="title" style="font-size: 18px">{{tour.title}}</p>
+        <p class="title tour-title">{{ tour.title }}</p>
         <table class="content">
           <tr>
             <td>期間: </td>
-            <td>{{tour.term}} 日間</td>
+            <td>{{ tour.term }} 日間</td>
           </tr>
           <tr>
             <td>出発地: </td>
-            <td>{{tour.dept_city.name}}</td>
+            <td>{{ tour.dept_city.name }}</td>
           </tr>
           <tr>
             <td>価格: </td>
             <td>
-              <span style="font-size: 18px; color: red;">{{tour.price.min}}</span> 円 ~ <span style="font-size: 18px; color: red;">{{tour.price.max}}</span> 円</td>
+              <span class="price">{{ tour.price.min }} </span>
+              円 ~
+              <span class="price"> {{ tour.price.max }} </span>
+              円
+            </td>
           </tr>
           <tr>
             <td colspan="2"><a :href="tour.urls.pc" target="_blank">AB-ROAD で見る</a></td>
@@ -29,8 +33,8 @@
         </table>
       </v-ons-card>
     </div>
-    <v-ons-bottom-toolbar style="display: table; width: 100%; text-align: right; padding: 0 10px;">
-      <div style="display: table-cell; vertical-align: middle; text-align: left;">
+    <v-ons-bottom-toolbar>
+      <div class="bottom-abroad-link">
         <a href="http://webservice.recruit.co.jp/" target="_blank">
           <img src="http://webservice.recruit.co.jp/banner/abroad-m.gif"
             alt="エイビーロードWebサービス"
@@ -42,10 +46,10 @@
           >
         </a>
       </div>
-      <div style="display: table-cell; vertical-align: middle; font-size: 20px">
-        <v-ons-button @click="backToPreviousPage()" :disabled="isFetching" modifier="quiet" style="font-size: 25px">&lt;</v-ons-button>
-        {{pageData.currentPage}} / {{pageData.allPage}}
-        <v-ons-button @click="goToNextPage()" :disabled="isFetching" modifier="quiet" style="font-size: 25px">&gt;</v-ons-button>
+      <div class="bottom-buttons">
+        <v-ons-button @click="backToPreviousPage()" :disabled="isFetching" modifier="quiet" class="change-page-button">&lt;</v-ons-button>
+        {{ pageData.currentPage }} / {{ pageData.allPage }}
+        <v-ons-button @click="goToNextPage()" :disabled="isFetching" modifier="quiet" class="change-page-button">&gt;</v-ons-button>
       </div>
     </v-ons-bottom-toolbar>
   </v-ons-page>
@@ -58,6 +62,7 @@ export default {
   name: 'search-page',
   data () {
     return {
+      pageName: '検索結果',
       tourResults: {},
       pageData: {}
     }
@@ -115,5 +120,34 @@ export default {
 </script>
 
 <style scoped>
+.tour-title {
+  font-size: 18px;
+}
+.price {
+  font-size: 18px; color: red;
+}
+
+ons-bottom-toolbar {
+  display: table;
+  width: 100%;
+  text-align: right;
+  padding: 0 10px;
+}
+
+.bottom-abroad-link {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: left;
+}
+
+.bottom-buttons {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 20px;
+}
+
+.change-page-button {
+  font-size: 25px;
+}
 </style>
 
