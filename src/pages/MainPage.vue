@@ -30,7 +30,7 @@
         <v-ons-input type="text" placeholder="フリーワード" style="width: 300px" v-model="freeWord"></v-ons-input>
       </v-ons-list-item>
     </v-ons-list>
-    <v-ons-bottom-toolbar>
+    <v-ons-bottom-toolbar modifier="transparent">
       <v-ons-button @click="search()" modifier="large">検索</v-ons-button>
     </v-ons-bottom-toolbar>
   </v-ons-page>
