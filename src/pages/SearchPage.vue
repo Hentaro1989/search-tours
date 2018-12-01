@@ -57,6 +57,7 @@
 
 <script>
 import { API_KEY } from '../constants'
+const apiKey = atob(API_KEY)
 
 export default {
   name: 'search-page',
@@ -69,7 +70,7 @@ export default {
   },
   methods: {
     fetch (url, query) {
-      query.key = API_KEY
+      query.key = apiKey
       query.format = 'jsonp'
       return this.$jsonp(url, query)
     },

@@ -39,6 +39,7 @@
 <script>
 import StSelect from '../components/StSelect'
 import { API_KEY } from '../constants'
+const apiKey = atob(API_KEY)
 
 export default {
   name: 'main-page',
@@ -59,7 +60,7 @@ export default {
   },
   methods: {
     fetch (url, query) {
-      query.key = API_KEY
+      query.key = apiKey
       query.format = 'jsonp'
       return this.$jsonp(url, query)
     },
@@ -140,6 +141,6 @@ export default {
 }
 
 ons-bottom-toolbar {
-  margin: 6px;
+  margin: 0 6px;
 }
 </style>
