@@ -33,7 +33,19 @@
             </td>
           </tr>
           <tr>
-            <td colspan="2"><a :href="tour.urls.pc" target="_blank">AB-ROAD で見る</a></td>
+            <td>ホテル: </td>
+            <td>{{ tour.hotel_summary }}</td>
+          </tr>
+          <tr>
+            <td>航空会社: </td>
+            <td>{{ tour.airline_summary }}</td>
+          </tr>
+          <tr>
+            <td>シートクラス: </td>
+            <td>{{ tour.seat_class.name }}</td>
+          </tr>
+          <tr>
+            <td colspan="2" style="padding-top: 20px; border-top: solid 1px gray;"><a :href="tour.urls.pc" target="_blank">AB-ROAD で見る</a></td>
           </tr>
         </table>
       </v-ons-card>

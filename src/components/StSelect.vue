@@ -27,6 +27,7 @@ export default {
 
 <style scoped>
 ons-select {
+  padding: 0 16px;
   width: 100%;
 }
 </style>

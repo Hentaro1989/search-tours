@@ -23,11 +23,19 @@
       </v-ons-list-item>
       <v-ons-list-header>出発日</v-ons-list-header>
       <v-ons-list-item>
-        <v-ons-input type="date" style="width: 300px" v-model="departureDate"></v-ons-input>
+        <v-ons-input type="date" v-model="departureDate"></v-ons-input>
+      </v-ons-list-item>
+      <v-ons-list-header>出発地</v-ons-list-header>
+      <v-ons-list-item>
+        <!-- Location code can receive multiple codes by right. But, I have no idea about this UI. -->
+        <v-ons-select v-model="locationCode">
+          <option value="">[出発地]を選択</option>
+          <option v-for="location in departureLocations" :key="location.code" :value="location.code">{{ location.name }}</option>
+        </v-ons-select>
       </v-ons-list-item>
       <v-ons-list-header>フリーワード</v-ons-list-header>
       <v-ons-list-item>
-        <v-ons-input type="text" placeholder="(例)ベトナム　癒し" style="width: 300px" v-model="freeWord"></v-ons-input>
+        <v-ons-input type="text" placeholder="(例)ベトナム　癒し" v-model="freeWord"></v-ons-input>
       </v-ons-list-item>
     </v-ons-list>
     <v-ons-bottom-toolbar modifier="transparent">
@@ -53,6 +61,14 @@ export default {
       country: '',
       city: '',
       departureDate: '',
+      locationCode: '',
+      departureLocations: [
+        {code: 'TYO', name: '東京'},
+        {code: 'NGO', name: '名古屋'},
+        {code: 'OSA', name: '大阪'},
+        {code: 'FUK', name: '福岡'},
+        {code: '999', name: 'その他'}
+      ],
       freeWord: ''
     }
   },
@@ -111,6 +127,7 @@ export default {
           country: this.country,
           city: this.city,
           ymd: this.departureDate && this.departureDate.replace(/-/g, ''),
+          dept: this.locationCode,
           keyword: this.freeWord
         }
       })
@@ -150,5 +167,15 @@ ons-bottom-toolbar {
 
 .search-button {
   padding: 0;
+}
+
+ons-input {
+  margin: 0 16px;
+  width: 100%
+}
+
+ons-select {
+  padding: 0 16px;
+  width: 100%;
 }
 </style>
