@@ -7,6 +7,11 @@
       <div class="center">{{ pageName }}</div>
     </v-ons-toolbar>
     <div>
+      <v-ons-progress-circular
+        class="center-status" indeterminate v-if="!tourResults.tour"
+      >
+      </v-ons-progress-circular>
+      <p class="center-status" v-if="tourResults.tour && tourResults.tour.length === 0">検索結果は 0 件です。</p>
       <v-ons-card v-for="tour in tourResults.tour" :key="tour.id">
         <p class="title tour-title">{{ tour.title }}</p>
         <table class="content">
@@ -149,6 +154,13 @@ ons-bottom-toolbar {
 
 .change-page-button {
   font-size: 25px;
+}
+
+.center-status {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-45%, -50%);
 }
 </style>
 

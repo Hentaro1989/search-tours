@@ -1,6 +1,6 @@
 <template>
-  <v-ons-select class="ons-select" v-model="selected" :disabled="!data.length">
-    <option value="menu">{{ selectTitle }}</option>
+  <v-ons-select v-model="selected" :disabled="!data.length">
+    <option value="">{{ selectTitle }}</option>
     <option v-for="d in data" :key="d.name" :value="d.code">{{ d.name }}</option>
   </v-ons-select>
 </template>
@@ -9,24 +9,24 @@
 export default {
   props: {
     selectTitle: String,
-    eventName: String,
+    targetName: String,
     data: Array
   },
   data () {
     return {
-      selected: 'menu'
+      selected: ''
     }
   },
   watch: {
     selected (value) {
-      this.$emit(this.eventName, value)
+      this.$emit(`on-${this.targetName}-select`, value)
     }
   }
 }
 </script>
 
 <style scoped>
-.ons-select {
-  width: 300px;
+ons-select {
+  width: 100%;
 }
 </style>

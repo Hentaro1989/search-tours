@@ -11,15 +11,15 @@
     <v-ons-list modifier="inset" class="search-list">
       <v-ons-list-header>エリア</v-ons-list-header>
       <v-ons-list-item>
-        <st-select select-title="[エリアを選択]" event-name="on-area-selected" :data="areas" @on-area-selected="onAreaSelected"></st-select>
+        <st-select select-title="[エリアを選択]" target-name="area" :data="areas" @on-area-select="onAreaSelect"></st-select>
       </v-ons-list-item>
       <v-ons-list-header>国</v-ons-list-header>
       <v-ons-list-item>
-        <st-select select-title="[国を選択]" event-name="on-country-selected" :data="countries" @on-country-selected="onCountrySelected"></st-select>
+        <st-select select-title="[国を選択]" target-name="country" :data="countries" @on-country-select="onCountrySelect"></st-select>
       </v-ons-list-item>
       <v-ons-list-header>都市</v-ons-list-header>
       <v-ons-list-item>
-        <st-select select-title="[都市を選択]" event-name="on-city-selected" :data="cities" @on-city-selected="onCitySelected"></st-select>
+        <st-select select-title="[都市を選択]" target-name="city" :data="cities" @on-city-select="onCitySelect"></st-select>
       </v-ons-list-item>
       <v-ons-list-header>出発日</v-ons-list-header>
       <v-ons-list-item>
@@ -27,11 +27,11 @@
       </v-ons-list-item>
       <v-ons-list-header>フリーワード</v-ons-list-header>
       <v-ons-list-item>
-        <v-ons-input type="text" placeholder="フリーワード" style="width: 300px" v-model="freeWord"></v-ons-input>
+        <v-ons-input type="text" placeholder="(例)ベトナム　癒し" style="width: 300px" v-model="freeWord"></v-ons-input>
       </v-ons-list-item>
     </v-ons-list>
     <v-ons-bottom-toolbar modifier="transparent">
-      <v-ons-button @click="search()" modifier="large">検索</v-ons-button>
+      <v-ons-button class="search-button" @click="search()" modifier="large">検索</v-ons-button>
     </v-ons-bottom-toolbar>
   </v-ons-page>
 </template>
@@ -47,10 +47,10 @@ export default {
     return {
       pageName: '海外旅行を検索',
       areas: [],
-      area: '',
       countries: [],
-      country: '',
       cities: [],
+      area: '',
+      country: '',
       city: '',
       departureDate: '',
       freeWord: ''
@@ -69,8 +69,8 @@ export default {
       this.fetch('https://webservice.recruit.co.jp/ab-road/area/v1/', query)
         .then(({results}) => { this.areas = results.area })
     },
-    onAreaSelected (value) {
-      if (value !== 'menu') {
+    onAreaSelect (value) {
+      if (value) {
         this.area = value
         const query = {area: value, callback: 'onCountry', count: 100}
         this.fetch('https://webservice.recruit.co.jp/ab-road/country/v1/', query)
@@ -81,8 +81,8 @@ export default {
         this.cities = []
       }
     },
-    onCountrySelected (value) {
-      if (value !== 'menu') {
+    onCountrySelect (value) {
+      if (value) {
         this.country = value
         const query = {country: value, callback: 'onCity', count: 100}
         this.fetch('https://webservice.recruit.co.jp/ab-road/city/v1/', query)
@@ -92,14 +92,18 @@ export default {
         this.cities = []
       }
     },
-    onCitySelected (value) {
-      if (value !== 'menu') {
+    onCitySelect (value) {
+      if (value) {
         this.city = value
       } else {
         this.city = ''
       }
     },
     search () {
+      if (!this.area && !this.freeWord) {
+        this.$ons.notification.alert('「エリア」を選択するか、「フリーワード」を入力してください。')
+        return
+      }
       this.$router.push({
         name: 'Search',
         query: {
@@ -107,7 +111,7 @@ export default {
           country: this.country,
           city: this.city,
           ymd: this.departureDate && this.departureDate.replace(/-/g, ''),
-          keyWord: this.freeWord
+          keyword: this.freeWord
         }
       })
     },
@@ -142,5 +146,9 @@ export default {
 
 ons-bottom-toolbar {
   margin: 0 6px;
+}
+
+.search-button {
+  padding: 0;
 }
 </style>
