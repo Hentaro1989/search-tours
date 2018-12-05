@@ -1,5 +1,5 @@
 <template>
-  <table class="content">
+  <table class="content st-content">
     <tr>
       <td class="data-title">期間: </td>
       <td>{{ tour.term }} 日間</td>
@@ -50,5 +50,9 @@ export default {
 
 .data-title {
   white-space: nowrap;
+}
+
+.st-content {
+  width: 100%;
 }
 </style>
