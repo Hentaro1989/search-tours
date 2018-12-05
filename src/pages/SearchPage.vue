@@ -16,15 +16,15 @@
         <p class="title tour-title">{{ tour.title }}</p>
         <table class="content">
           <tr>
-            <td>期間: </td>
+            <td class="data-title">期間: </td>
             <td>{{ tour.term }} 日間</td>
           </tr>
           <tr>
-            <td>出発地: </td>
+            <td class="data-title">出発地: </td>
             <td>{{ tour.dept_city.name }}</td>
           </tr>
           <tr>
-            <td>価格: </td>
+            <td class="data-title">価格: </td>
             <td>
               <span class="price">{{ tour.price.min }} </span>
               円 ~
@@ -33,15 +33,15 @@
             </td>
           </tr>
           <tr>
-            <td>ホテル: </td>
+            <td class="data-title">ホテル: </td>
             <td>{{ tour.hotel_summary }}</td>
           </tr>
           <tr>
-            <td>航空会社: </td>
+            <td class="data-title">航空会社: </td>
             <td>{{ tour.airline_summary }}</td>
           </tr>
           <tr>
-            <td>シートクラス: </td>
+            <td class="data-title">シートクラス: </td>
             <td>{{ tour.seat_class.name }}</td>
           </tr>
           <tr>
@@ -173,6 +173,10 @@ ons-bottom-toolbar {
   top: 45%;
   left: 50%;
   transform: translate(-45%, -50%);
+}
+
+.data-title {
+  white-space: nowrap;
 }
 </style>
 
