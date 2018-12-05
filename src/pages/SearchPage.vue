@@ -14,40 +14,7 @@
       <p class="center-status" v-if="tourResults.tour && tourResults.tour.length === 0">検索結果は 0 件です。</p>
       <v-ons-card v-for="tour in tourResults.tour" :key="tour.id">
         <p class="title tour-title">{{ tour.title }}</p>
-        <table class="content">
-          <tr>
-            <td class="data-title">期間: </td>
-            <td>{{ tour.term }} 日間</td>
-          </tr>
-          <tr>
-            <td class="data-title">出発地: </td>
-            <td>{{ tour.dept_city.name }}</td>
-          </tr>
-          <tr>
-            <td class="data-title">価格: </td>
-            <td>
-              <span class="price">{{ tour.price.min }} </span>
-              円 ~
-              <span class="price"> {{ tour.price.max }} </span>
-              円
-            </td>
-          </tr>
-          <tr>
-            <td class="data-title">ホテル: </td>
-            <td>{{ tour.hotel_summary }}</td>
-          </tr>
-          <tr>
-            <td class="data-title">航空会社: </td>
-            <td>{{ tour.airline_summary }}</td>
-          </tr>
-          <tr>
-            <td class="data-title">シートクラス: </td>
-            <td>{{ tour.seat_class.name }}</td>
-          </tr>
-          <tr>
-            <td colspan="2" style="padding-top: 20px; border-top: solid 1px gray;"><a :href="tour.urls.pc" target="_blank">AB-ROAD で見る</a></td>
-          </tr>
-        </table>
+        <st-card-content :tour="tour"></st-card-content>
       </v-ons-card>
     </div>
     <v-ons-bottom-toolbar>
@@ -74,6 +41,7 @@
 
 <script>
 import { API_KEY } from '../constants'
+import StCardContent from '../components/StCardContent'
 const apiKey = atob(API_KEY)
 
 export default {
@@ -133,6 +101,9 @@ export default {
   },
   created () {
     this.fetchTours(this.$route.query.start)
+  },
+  components: {
+    StCardContent
   }
 }
 </script>
@@ -140,9 +111,6 @@ export default {
 <style scoped>
 .tour-title {
   font-size: 18px;
-}
-.price {
-  font-size: 18px; color: red;
 }
 
 ons-bottom-toolbar {
@@ -173,10 +141,6 @@ ons-bottom-toolbar {
   top: 45%;
   left: 50%;
   transform: translate(-45%, -50%);
-}
-
-.data-title {
-  white-space: nowrap;
 }
 </style>
 
